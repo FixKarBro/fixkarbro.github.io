@@ -5,78 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FixKarBro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<!-- Fast Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
+:root{
+  --bg:#0b0f14;
+  --card:#11161d;
+  --accent:#00aaff;
+  --text:#ffffff;
+  --sub:#9aa4af;
+}
+
+*{
   margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:#050505;
-  color:white;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Container */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
   text-align:center;
 }
 
 /* Header */
-header {
-  padding:80px 20px;
+header{
+  padding:60px 10px 30px;
 }
 
-h1 {
-  font-size:50px;
+h1{
+  font-size:36px;
+  font-weight:700;
 }
 
-span {
-  color:#00aaff;
+h1 span{
+  color:var(--accent);
 }
 
-.tagline {
-  color:#aaa;
-  margin-top:10px;
-}
-
-/* Section */
-.section {
-  padding:50px 20px;
-}
-
-.card {
-  background:#111;
-  margin:20px auto;
-  padding:20px;
-  border-radius:12px;
-  max-width:400px;
-  box-shadow:0 0 15px #00aaff22;
-  transition:0.3s;
-}
-
-.card:hover {
-  transform:scale(1.05);
-  box-shadow:0 0 25px #00aaff55;
+.tagline{
+  color:var(--sub);
+  margin-top:8px;
+  font-size:14px;
 }
 
 /* Button */
-.btn {
+.btn{
   display:inline-block;
   margin-top:20px;
-  padding:12px 25px;
-  background:#00aaff;
-  color:black;
+  padding:12px 22px;
+  background:var(--accent);
+  color:#000;
   text-decoration:none;
-  border-radius:25px;
-  font-weight:bold;
-  transition:0.3s;
+  border-radius:30px;
+  font-weight:600;
+  transition:0.2s;
 }
 
-.btn:hover {
-  background:white;
-  transform:scale(1.1);
+.btn:active{
+  transform:scale(0.97);
+}
+
+/* Cards */
+.grid{
+  display:grid;
+  gap:15px;
+  margin-top:30px;
+}
+
+.card{
+  background:var(--card);
+  padding:18px;
+  border-radius:14px;
+  text-align:left;
+  transition:0.2s;
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+.card:hover{
+  border-color:rgba(0,170,255,0.3);
+}
+
+.card h2{
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.card p{
+  font-size:14px;
+  color:var(--sub);
 }
 
 /* Footer */
-footer {
-  padding:20px;
-  font-size:14px;
-  color:#888;
+footer{
+  margin-top:40px;
+  font-size:13px;
+  color:var(--sub);
+  padding-bottom:20px;
+}
+
+/* Responsive */
+@media(min-width:600px){
+  h1{font-size:42px;}
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
 }
 </style>
 
@@ -84,44 +127,46 @@ footer {
 
 <body>
 
+<div class="container">
+
 <header>
   <h1>FixKar<span>Bro</span></h1>
   <p class="tagline">Real Problems. Real Fix.</p>
 
-  <!-- YouTube Button (WORKING) -->
   <a href="https://www.youtube.com/@FixKarBro" class="btn">
     Watch Tutorials
   </a>
-
 </header>
 
-<div class="section">
+<div class="grid">
 
   <div class="card">
     <h2>Mobile Fixes</h2>
-    <p>Real tested solutions for phone issues</p>
+    <p>Lag, heating, app crash, storage issues — real fixes tested on real devices. No fake tricks.</p>
   </div>
 
   <div class="card">
     <h2>PC Solutions</h2>
-    <p>Windows & laptop problem fixes</p>
+    <p>Windows errors, slow laptop, bugs — practical solutions that actually solve the problem.</p>
   </div>
 
   <div class="card">
     <h2>Tutorials</h2>
-    <p>Step-by-step easy guides</p>
+    <p>Step-by-step guides that are simple, clear, and easy to follow.</p>
   </div>
 
   <div class="card">
     <h2>About FixKarBro</h2>
-    <p>No clickbait. Only real problems and tested solutions that actually work.</p>
+    <p>No clickbait. No fake solutions. Only real problems and real fixes based on experience.</p>
   </div>
 
 </div>
 
 <footer>
-  © 2026 FixKarBro | Your Problem Ends Here
+  © 2026 FixKarBro • Your Problem Ends Here
 </footer>
+
+</div>
 
 </body>
 </html>
