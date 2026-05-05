@@ -20,91 +20,95 @@ body{
   color:white;
 }
 
-/* HERO SECTION */
-.hero{
-  min-height:100vh;
+/* NAVBAR */
+.nav{
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  padding:40px 20px;
-  background:linear-gradient(135deg,#0b0f14,#0d2c4a);
+  padding:18px 30px;
 }
 
-.container{
+.logo{
+  font-weight:700;
+  font-size:18px;
+}
+
+.nav a{
+  color:#9aa4af;
+  text-decoration:none;
+  margin-left:20px;
+  font-size:14px;
+}
+
+/* HERO */
+.hero{
+  padding:60px 30px;
   max-width:1100px;
   margin:auto;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
 }
 
-/* TEXT */
 .hero h1{
-  font-size:42px;
+  font-size:44px;
   font-weight:800;
   line-height:1.2;
 }
 
-.hero h1 span{
+.highlight{
   color:#00aaff;
 }
 
 .sub{
+  margin-top:15px;
   color:#9aa4af;
-  font-size:15px;
   max-width:500px;
+  font-size:15px;
 }
 
 /* BUTTON */
 .btn{
   display:inline-block;
+  margin-top:25px;
   padding:14px 28px;
-  background:#00aaff;
+  background:linear-gradient(90deg,#00aaff,#0090ff);
   color:black;
   border-radius:30px;
   font-weight:600;
   text-decoration:none;
-  width:fit-content;
 }
 
-/* FEATURES */
-.features{
+/* CARDS */
+.cards{
+  margin-top:60px;
   display:grid;
-  gap:15px;
-  margin-top:20px;
+  gap:20px;
 }
 
 .card{
-  background:rgba(255,255,255,0.05);
-  padding:18px;
-  border-radius:12px;
-  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:22px;
+  border-radius:14px;
+  backdrop-filter:blur(12px);
 }
 
 .card h3{
-  font-size:16px;
-  margin-bottom:5px;
+  font-size:18px;
+  margin-bottom:8px;
 }
 
 .card p{
-  font-size:13px;
+  font-size:14px;
   color:#9aa4af;
 }
 
 /* DESKTOP */
 @media(min-width:768px){
-  .container{
-    flex-direction:row;
-    justify-content:space-between;
-    align-items:center;
+  .hero h1{
+    font-size:56px;
   }
 
-  .left{
-    max-width:500px;
-  }
-
-  .features{
+  .cards{
     grid-template-columns:1fr 1fr;
-    max-width:500px;
   }
 }
 </style>
@@ -113,27 +117,35 @@ body{
 
 <body>
 
-<section class="hero">
-
-<div class="container">
-
-<div class="left">
-  <h1>
-    Fix Real Problems.<br>
-    Grow Your Tech Skills.<br>
-    <span>Build with Confidence.</span>
-  </h1>
-
-  <p class="sub">
-    Real issues. Real fixes. No clickbait. Learn practical solutions for mobile, PC, and everyday tech problems.
-  </p>
-
-  <a href="https://www.youtube.com/@FixKarBro" class="btn">
-    Watch Tutorials
-  </a>
+<!-- NAVBAR -->
+<div class="nav">
+  <div class="logo">FixKarBro</div>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Tutorials</a>
+    <a href="#">About</a>
+  </div>
 </div>
 
-<div class="features">
+<!-- HERO -->
+<section class="hero">
+
+<h1>
+  Fix Real Problems.<br>
+  Grow Your Tech Skills.<br>
+  <span class="highlight">Build with Confidence.</span>
+</h1>
+
+<p class="sub">
+  Real issues. Real fixes. No clickbait. Learn practical solutions for mobile, PC, and everyday tech problems.
+</p>
+
+<a href="https://www.youtube.com/@FixKarBro" class="btn">
+  Watch Tutorials
+</a>
+
+<!-- CARDS -->
+<div class="cards">
 
   <div class="card">
     <h3>Mobile Fixes</h3>
@@ -154,8 +166,6 @@ body{
     <h3>No Clickbait</h3>
     <p>Only real solutions that actually work — no fake tricks.</p>
   </div>
-
-</div>
 
 </div>
 
