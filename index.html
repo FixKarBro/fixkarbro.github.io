@@ -1,175 +1,652 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FixKarBro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixKarBro — Your Problem Ends Here</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E00000;
+      --red-dim: #800000;
+      --bg: #050505;
+      --bg2: #0D0D0D;
+      --bg3: #111111;
+      --border: #1a1a1a;
+      --text: #CCCCCC;
+      --dim: #444;
+      --mono: 'Share Tech Mono', monospace;
+      --display: 'Bebas Neue', sans-serif;
+      --body: 'Inter', sans-serif;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+    html { scroll-behavior: smooth; }
 
-body{
-  font-family:'Inter',sans-serif;
-  background:#0b0f14;
-  color:white;
-}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
 
-/* NAVBAR */
-.nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 30px;
-}
+    /* SCANLINE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-.logo{
-  font-weight:700;
-  font-size:18px;
-}
+    /* GRID BACKGROUND */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(224,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(224,0,0,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.nav a{
-  color:#9aa4af;
-  text-decoration:none;
-  margin-left:20px;
-  font-size:14px;
-}
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(5,5,5,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
 
-/* HERO */
-.hero{
-  padding:60px 30px;
-  max-width:1100px;
-  margin:auto;
-}
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 1.8rem;
+      color: #fff;
+      letter-spacing: 3px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--red); }
 
-.hero h1{
-  font-size:44px;
-  font-weight:800;
-  line-height:1.2;
-}
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::before {
+      content: '> ';
+      color: var(--red);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::before { opacity: 1; }
 
-.highlight{
-  color:#00aaff;
-}
+    .nav-status {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
 
-.sub{
-  margin-top:15px;
-  color:#9aa4af;
-  max-width:500px;
-  font-size:15px;
-}
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      z-index: 1;
+      overflow: hidden;
+    }
 
-/* BUTTON */
-.btn{
-  display:inline-block;
-  margin-top:25px;
-  padding:14px 28px;
-  background:linear-gradient(90deg,#00aaff,#0090ff);
-  color:black;
-  border-radius:30px;
-  font-weight:600;
-  text-decoration:none;
-}
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--red);
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
 
-/* CARDS */
-.cards{
-  margin-top:60px;
-  display:grid;
-  gap:20px;
-}
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: 0.88;
+      color: #fff;
+      letter-spacing: 4px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-title .accent { color: var(--red); }
 
-.card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  padding:22px;
-  border-radius:14px;
-  backdrop-filter:blur(12px);
-}
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--dim);
+      margin-top: 32px;
+      max-width: 520px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+    .hero-sub span { color: #fff; }
 
-.card h3{
-  font-size:18px;
-  margin-bottom:8px;
-}
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 48px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
 
-.card p{
-  font-size:14px;
-  color:#9aa4af;
-}
+    .btn-primary {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: var(--red);
+      color: #fff;
+      padding: 16px 36px;
+      border: none;
+      cursor: crosshair;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary:hover {
+      background: #ff1111;
+      transform: translateY(-2px);
+    }
 
-/* DESKTOP */
-@media(min-width:768px){
-  .hero h1{
-    font-size:56px;
-  }
+    .btn-ghost {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--dim);
+      padding: 16px 36px;
+      border: 1px solid var(--border);
+      cursor: crosshair;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { color: #fff; border-color: var(--red); }
 
-  .cards{
-    grid-template-columns:1fr 1fr;
-  }
-}
-</style>
+    /* Big BG text */
+    .hero-bg-text {
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--display);
+      font-size: clamp(8rem, 22vw, 22rem);
+      color: rgba(224,0,0,0.04);
+      letter-spacing: 8px;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
 
+    /* Terminal line */
+    .terminal-line {
+      position: absolute;
+      bottom: 48px;
+      left: 48px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terminal-line::before { content: '//'; color: var(--red); }
+    .cursor-blink {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--red);
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTION BASE */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--red);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      color: #fff;
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 60px;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .about-text p strong { color: #fff; }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: var(--display);
+      font-size: 3.5rem;
+      color: var(--red);
+      min-width: 100px;
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    /* WHAT I DO */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1100px;
+    }
+
+    .service-card {
+      background: var(--bg2);
+      padding: 40px 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--red);
+      transition: height 0.3s;
+    }
+    .service-card:hover::before { height: 100%; }
+    .service-card:hover { background: #111; }
+
+    .service-icon {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--red);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .service-title {
+      font-family: var(--display);
+      font-size: 2rem;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--dim);
+      line-height: 1.8;
+    }
+
+    /* PHILOSOPHY */
+    .philosophy {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .philosophy-inner {
+      max-width: 900px;
+    }
+
+    .big-quote {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+    }
+    .big-quote .red { color: var(--red); }
+
+    .quote-meta {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 3px;
+    }
+
+    /* CONTACT */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1100px;
+      align-items: start;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-link::after {
+      content: '→';
+      position: absolute;
+      right: 24px;
+      color: var(--red);
+      opacity: 0;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { background: #111; color: #fff; padding-left: 32px; }
+    .contact-link:hover::after { opacity: 1; }
+
+    .link-platform {
+      color: var(--red);
+      min-width: 90px;
+    }
+
+    .contact-text p {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--dim);
+      line-height: 2;
+      margin-bottom: 12px;
+    }
+    .contact-text p span { color: #fff; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 3px;
+    }
+    .footer-logo span { color: var(--red); }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+    }
+
+    /* DIVIDER LINE */
+    .red-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      margin: 0;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 70px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .terminal-line { left: 20px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<div class="nav">
-  <div class="logo">FixKarBro</div>
-  <div>
-    <a href="#">Home</a>
-    <a href="#">Tutorials</a>
-    <a href="#">About</a>
-  </div>
-</div>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Fix<span>Kar</span>Bro</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#what">What I Do</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      LIVE
+    </div>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-
-<h1>
-  Fix Real Problems.<br>
-  Grow Your Tech Skills.<br>
-  <span class="highlight">Build with Confidence.</span>
-</h1>
-
-<p class="sub">
-  Real issues. Real fixes. No clickbait. Learn practical solutions for mobile, PC, and everyday tech problems.
-</p>
-
-<a href="https://www.youtube.com/@FixKarBro" class="btn">
-  Watch Tutorials
-</a>
-
-<!-- CARDS -->
-<div class="cards">
-
-  <div class="card">
-    <h3>Mobile Fixes</h3>
-    <p>Fix lag, heating, storage and app issues with real tested solutions.</p>
-  </div>
-
-  <div class="card">
-    <h3>PC Solutions</h3>
-    <p>Solve Windows errors, slow laptop and bugs with practical methods.</p>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg-text">FKB</div>
+    <p class="hero-tag">// SYSTEM ONLINE — EST. 2024</p>
+    <h1 class="hero-title">
+      FIX<span class="accent">KAR</span><br>BRO
+    </h1>
+    <p class="hero-sub">
+      <span>Your Problem Ends Here.</span><br>
+      Real fixes. No clickbait. No wasted time.<br>
+      If Google couldn't solve it — I will.
+    </p>
+    <div class="hero-actions">
+      <a href="https://youtube.com/@FixKarBro" class="btn-primary">Watch Now</a>
+      <a href="#about" class="btn-ghost">Learn More</a>
+    </div>
+    <div class="terminal-line">
+      fixkarbro.github.io — initializing<span class="cursor-blink"></span>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>Step-by-Step Guides</h3>
-    <p>Clear tutorials without confusion — easy to follow for everyone.</p>
-  </div>
+  <div class="red-line"></div>
 
-  <div class="card">
-    <h3>No Clickbait</h3>
-    <p>Only real solutions that actually work — no fake tricks.</p>
-  </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">01 // About</div>
+    <div class="section-title">WHO IS<br>FIXKARBRO</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I fix what the internet couldn't. Every video on this channel comes from a <strong>problem I personally faced</strong> — and a solution I found after hours of searching through useless clickbait.</p>
+        <p>No sponsored opinions. No fake fixes. No "it worked for me maybe it'll work for you." Just <strong>exact steps that actually work.</strong></p>
+        <p>Tech problems don't have to be frustrating. They just need someone who's already been through it. <strong>That's me.</strong></p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-row">
+          <div class="stat-num">0%</div>
+          <div class="stat-label">Clickbait.<br>Ever.</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Real problems<br>I faced myself</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-num">1</div>
+          <div class="stat-label">Rule — if it didn't<br>work, I won't post it</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
+  <div class="red-line"></div>
 
-</section>
+  <!-- WHAT I DO -->
+  <section id="what">
+    <div class="section-label">02 // What I Do</div>
+    <div class="section-title">THE FIX<br>LIST</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">[ 01 ] TECH_FIXES</div>
+        <div class="service-title">TECH FIXES</div>
+        <p class="service-desc">Phone heating, battery drain, slow laptop, app crashes — every real issue with a real solution that actually works.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">[ 02 ] HONEST_REVIEWS</div>
+        <div class="service-title">HONEST REVIEWS</div>
+        <p class="service-desc">No brand money. No sugar coating. If a product is garbage, I'll say it. If it's worth buying, I'll tell you exactly why.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">[ 03 ] UNBOXING</div>
+        <div class="service-title">UNBOXING</div>
+        <p class="service-desc">Real first impressions. No script. No rehearsal. Just the product in my hands and exactly what I think about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="red-line"></div>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy">
+    <div class="philosophy-inner">
+      <div class="section-label">03 // Philosophy</div>
+      <div class="big-quote">
+        "I ONLY POST<br>
+        WHAT <span class="red">ACTUALLY</span><br>
+        WORKED."
+      </div>
+      <div class="quote-meta">— FIXKARBRO // YOUR PROBLEM ENDS HERE</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">04 // Contact</div>
+    <div class="section-title">FIND ME<br>ONLINE</div>
+    <div class="contact-inner">
+      <div class="contact-links">
+        <a href="https://youtube.com/@FixKarBro" class="contact-link">
+          <span class="link-platform">YOUTUBE</span>
+          @FixKarBro
+        </a>
+        <a href="https://instagram.com/fixkarbro" class="contact-link">
+          <span class="link-platform">INSTAGRAM</span>
+          @fixkarbro
+        </a>
+        <a href="mailto:fixkarbro@gmail.com" class="contact-link">
+          <span class="link-platform">EMAIL</span>
+          fixkarbro@gmail.com
+        </a>
+      </div>
+      <div class="contact-text">
+        <p>Got a tech problem that <span>no one could solve?</span></p>
+        <p>Send it to me. If I can reproduce it — <span>I'll make a video about it.</span></p>
+        <p>Brand collaborations: <span>fixkarbro@gmail.com</span></p>
+        <p style="margin-top:24px; color: #333;">// No spam. No paid promotions without disclosure. Ever.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Fix<span>Kar</span>Bro</div>
+    <div class="footer-copy">© 2024 FIXKARBRO — YOUR PROBLEM ENDS HERE</div>
+  </footer>
 
 </body>
 </html>
