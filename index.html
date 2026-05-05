@@ -13,8 +13,8 @@
       --bg2: #0D0D0D;
       --bg3: #111111;
       --border: #1a1a1a;
-      --text: #CCCCCC;
-      --dim: #444;
+      --text: #E8E8E8;
+      --dim: #999;
       --mono: 'Share Tech Mono', monospace;
       --display: 'Bebas Neue', sans-serif;
       --body: 'Inter', sans-serif;
@@ -88,7 +88,7 @@
     .nav-links a {
       font-family: var(--mono);
       font-size: 0.75rem;
-      color: var(--dim);
+      color: #888888;
       text-decoration: none;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -151,6 +151,8 @@
       line-height: 0.88;
       color: #fff;
       letter-spacing: 4px;
+      font-weight: 900;
+      text-shadow: 0 0 60px rgba(255,255,255,0.08);
       opacity: 0;
       animation: fadeUp 0.7s 0.4s forwards;
     }
@@ -159,7 +161,7 @@
     .hero-sub {
       font-family: var(--mono);
       font-size: 1rem;
-      color: var(--dim);
+      color: #BBBBBB;
       margin-top: 32px;
       max-width: 520px;
       line-height: 1.8;
@@ -234,7 +236,7 @@
       left: 48px;
       font-family: var(--mono);
       font-size: 0.72rem;
-      color: var(--dim);
+      color: #888888;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -283,11 +285,13 @@
 
     .section-title {
       font-family: var(--display);
-      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-size: clamp(3.2rem, 6.5vw, 6rem);
       color: #fff;
       letter-spacing: 3px;
       line-height: 1;
       margin-bottom: 60px;
+      font-weight: 900;
+      text-shadow: 0 0 40px rgba(255,255,255,0.05);
     }
 
     /* ABOUT */
@@ -372,14 +376,15 @@
     }
     .service-title {
       font-family: var(--display);
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: #fff;
       letter-spacing: 2px;
       margin-bottom: 14px;
+      font-weight: 900;
     }
     .service-desc {
       font-size: 0.88rem;
-      color: var(--dim);
+      color: #AAAAAA;
       line-height: 1.8;
     }
 
@@ -396,18 +401,19 @@
 
     .big-quote {
       font-family: var(--display);
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
       color: #fff;
       line-height: 1.1;
       letter-spacing: 2px;
       margin-bottom: 32px;
+      font-weight: 900;
     }
     .big-quote .red { color: var(--red); }
 
     .quote-meta {
       font-family: var(--mono);
       font-size: 0.72rem;
-      color: var(--dim);
+      color: #999999;
       letter-spacing: 3px;
     }
 
@@ -457,7 +463,7 @@
     .contact-text p {
       font-family: var(--mono);
       font-size: 0.82rem;
-      color: var(--dim);
+      color: #AAAAAA;
       line-height: 2;
       margin-bottom: 12px;
     }
@@ -483,7 +489,7 @@
     .footer-copy {
       font-family: var(--mono);
       font-size: 0.65rem;
-      color: var(--dim);
+      color: #888888;
       letter-spacing: 2px;
     }
 
@@ -494,6 +500,56 @@
       background: linear-gradient(90deg, var(--red), transparent);
       margin: 0;
     }
+
+
+    /* SCROLL PROGRESS BAR */
+    .scroll-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), #ff6666);
+      z-index: 99999;
+      width: 0%;
+      transition: width 0.1s;
+      box-shadow: 0 0 10px var(--red);
+    }
+
+    /* BACK TO TOP */
+    .back-top {
+      position: fixed;
+      bottom: 36px; right: 36px;
+      width: 44px; height: 44px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: crosshair;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(224,0,0,0.3);
+    }
+    .back-top.show { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: #ff2222; transform: translateY(-3px); }
+
+    /* TYPING CURSOR */
+    .typed-cursor {
+      display: inline-block;
+      width: 3px;
+      background: var(--red);
+      animation: blink 0.8s step-end infinite;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+
+    /* COUNT UP ANIMATION */
+    .count-num { display: inline-block; }
 
     /* MOBILE */
     @media (max-width: 768px) {
@@ -509,6 +565,8 @@
   </style>
 </head>
 <body>
+<div class="scroll-bar" id="scrollBar"></div>
+<a href="#" class="back-top" id="backTop">↑</a>
 
   <!-- NAV -->
   <nav>
@@ -527,7 +585,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-bg-text">FKB</div>
-    <p class="hero-tag">// SYSTEM ONLINE — EST. 2024</p>
+    <p class="hero-tag">// SYSTEM ONLINE — EST. 2025</p>
     <h1 class="hero-title">
       FIX<span class="accent">KAR</span><br>BRO
     </h1>
@@ -628,16 +686,13 @@
           <span class="link-platform">INSTAGRAM</span>
           @fixkarbro
         </a>
-        <a href="mailto:fixkarbro@gmail.com" class="contact-link">
-          <span class="link-platform">EMAIL</span>
-          fixkarbro@gmail.com
-        </a>
+
       </div>
       <div class="contact-text">
         <p>Got a tech problem that <span>no one could solve?</span></p>
-        <p>Send it to me. If I can reproduce it — <span>I'll make a video about it.</span></p>
-        <p>Brand collaborations: <span>fixkarbro@gmail.com</span></p>
-        <p style="margin-top:24px; color: #333;">// No spam. No paid promotions without disclosure. Ever.</p>
+        <p>Send it to me via YouTube or Instagram.<br>If I can reproduce it — <span>I'll make a video about it.</span></p>
+        <p>Brand collaborations: <span>DM on Instagram</span></p>
+        <p style="margin-top:24px; color: #666666;">// No spam. No paid promotions without disclosure. Ever.</p>
       </div>
     </div>
   </section>
@@ -645,8 +700,69 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">Fix<span>Kar</span>Bro</div>
-    <div class="footer-copy">© 2024 FIXKARBRO — YOUR PROBLEM ENDS HERE</div>
+    <div class="footer-copy">© 2025 FIXKARBRO. ALL RIGHTS RESERVED. UNAUTHORIZED USE, COPYING OR DISTRIBUTION WITHOUT WRITTEN PERMISSION IS STRICTLY PROHIBITED AND WILL RESULT IN LEGAL ACTION.</div>
   </footer>
 
+
+<script>
+// SCROLL PROGRESS BAR
+const bar = document.getElementById('scrollBar');
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  bar.style.width = pct + '%';
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+
+// TYPING EFFECT on hero tag
+const tag = document.querySelector('.hero-tag');
+if(tag) {
+  const txt = tag.textContent;
+  tag.textContent = '';
+  tag.style.opacity = '1';
+  tag.style.animation = 'none';
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'typed-cursor';
+  cursor.style.height = '12px';
+  tag.appendChild(cursor);
+  const type = () => {
+    if(i < txt.length) {
+      tag.insertBefore(document.createTextNode(txt[i]), cursor);
+      i++;
+      setTimeout(type, 45);
+    } else {
+      setTimeout(() => cursor.remove(), 1200);
+    }
+  };
+  setTimeout(type, 600);
+}
+
+// COUNT UP ANIMATION
+function countUp(el, target, suffix='', duration=1800) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if(start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start) + suffix;
+  }, 16);
+}
+
+const statNums = document.querySelectorAll('.stat-num');
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      const el = entry.target;
+      const txt = el.textContent.trim();
+      if(txt === '0%') countUp(el, 0, '%');
+      else if(txt === '100%') countUp(el, 100, '%');
+      else if(txt === '1') countUp(el, 1, '');
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+statNums.forEach(el => statsObserver.observe(el));
+</script>
 </body>
 </html>
