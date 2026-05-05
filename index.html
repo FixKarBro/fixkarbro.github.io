@@ -575,6 +575,15 @@
     /* COUNT UP ANIMATION */
     .count-num { display: inline-block; }
 
+
+    /* PROTECTION */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     /* MOBILE */
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
@@ -788,5 +797,53 @@ const statsObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 statNums.forEach(el => statsObserver.observe(el));
 </script>
+
+<script>
+// 1. DISABLE RIGHT CLICK
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 2. DISABLE KEYBOARD SHORTCUTS
+document.addEventListener('keydown', function(e) {
+  // Block Ctrl+U (view source), Ctrl+S (save), Ctrl+A (select all)
+  // Ctrl+C (copy), F12 (devtools), Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+  if (
+    (e.ctrlKey && (e.key === 'u' || e.key === 'U')) ||
+    (e.ctrlKey && (e.key === 's' || e.key === 'S')) ||
+    (e.ctrlKey && (e.key === 'a' || e.key === 'A')) ||
+    (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'j' || e.key === 'J')) ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'c' || e.key === 'C')) ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'k' || e.key === 'K')) ||
+    e.key === 'F12'
+  ) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+
+
+// 4. DISABLE DRAG
+document.addEventListener('dragstart', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 5. DISABLE TEXT SELECTION via mouse
+document.addEventListener('selectstart', function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// 6. WATERMARK IN CONSOLE
+console.log('%c⛔ STOP!', 'color:#E00000;font-size:48px;font-weight:900;');
+console.log('%cThis code is protected under © 2025 FixKarBro.', 'color:#999;font-size:14px;');
+console.log('%cUnauthorized copying is illegal and will result in strict legal action.', 'color:#666;font-size:12px;');
+</script>
+
 </body>
 </html>
